@@ -53,5 +53,5 @@ module.exports = function(grunt) {
     "copy",
     "ts"
   ]);
-
+  grunt.registerTask("heroku", ["default"]);
 };
