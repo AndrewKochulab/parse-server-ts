@@ -6,7 +6,7 @@
   "author": "Brian Love",
   "scripts": {
     "dev": "NODE_ENV=development nodemon ./bin/www",
-    "start": "npm run build && node bin/index.js",
+    "start": "node bin/index.js",
     "build": "./node_modules/grunt/bin/grunt"
   },
   "dependencies": {
@@ -20,10 +20,6 @@
     "parse-server": "^2.2.25-beta.1",
     "pug": "^2.0.0-beta6",
     "xml2js": "^0.4.17",
-    "grunt": "^1.0.1",
-    "grunt-contrib-copy": "^1.0.0",
-    "grunt-contrib-watch": "^1.0.0",
-    "grunt-ts": "^6.0.0-beta.3",
     "typescript": "^2.0.8"
   },
   "devDependencies": {
@@ -34,6 +30,10 @@
     "@types/morgan": "^1.7.32",
     "@types/parse": "^1.2.32",
     "@types/xml2js": "0.0.29",
-    "nodemon": "^1.11.0"
+    "nodemon": "^1.11.0",
+    "grunt": "^1.0.1",
+    "grunt-contrib-copy": "^1.0.0",
+    "grunt-contrib-watch": "^1.0.0",
+    "grunt-ts": "^6.0.0-beta.3"
   }
 }
