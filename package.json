@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "NODE_ENV=development nodemon ./bin/www",
     "grunt": "grunt",
-    "start": "node ./bin/www"
+    "start": "npm run grunt && node ./bin/www"
   },
   "dependencies": {
     "body-parser": "^1.15.2",
@@ -16,7 +16,10 @@
     "express": "^4.14.0",
     "method-override": "^2.3.6",
     "morgan": "^1.7.0",
-    "pug": "^2.0.0-beta6"
+    "parse": "^1.9.2",
+    "parse-server": "^2.2.25-beta.1",
+    "pug": "^2.0.0-beta6",
+    "xml2js": "^0.4.17"
   },
   "devDependencies": {
     "@types/body-parser": "0.0.33",
@@ -24,6 +27,8 @@
     "@types/errorhandler": "0.0.30",
     "@types/method-override": "0.0.29",
     "@types/morgan": "^1.7.32",
+    "@types/parse": "^1.2.32",
+    "@types/xml2js": "0.0.29",
     "grunt": "^1.0.1",
     "grunt-contrib-copy": "^1.0.0",
     "grunt-contrib-watch": "^1.0.0",
