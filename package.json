@@ -6,8 +6,9 @@
   "author": "Brian Love",
   "scripts": {
     "dev": "NODE_ENV=development nodemon ./bin/www",
-    "grunt": "grunt",
-    "start": "npm run grunt && node bin/index.js"
+    "start": "node bin/index.js",
+    "build": "grunt",
+    "postinstall": "npm run build"
   },
   "dependencies": {
     "body-parser": "^1.15.2",
