@@ -7,8 +7,7 @@
   "scripts": {
     "dev": "NODE_ENV=development nodemon ./bin/www",
     "grunt": "grunt",
-    "start": "node ./bin/www",
-    "web": "npm run grunt && npm run start"
+    "start": "npm run grunt && node bin/index.js"
   },
   "dependencies": {
     "body-parser": "^1.15.2",
