@@ -16,6 +16,12 @@ module.exports = function(grunt) {
             cwd: "./views",
             src: ["**"],
             dest: "./dist/views"
+          },
+          {
+            expand: true,
+            cwd: "src/bin",
+            src: ["**"],
+            dest: "./dist/bin"
           }
         ]
       }
@@ -51,7 +57,10 @@ module.exports = function(grunt) {
 
   grunt.registerTask("default", [
     "copy",
-    "ts"
+    "ts",
+    "watch"
   ]);
-  grunt.registerTask("heroku", ["default"]);
+  grunt.registerTask("heroku", [
+      "copy",
+      "ts"]);
 };
