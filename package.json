@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "NODE_ENV=development nodemon ./bin/www",
     "start": "node bin/index.js",
-    "build": "node ./node_modules/grunt/bin/grunt",
+    "build": "./node_modules/grunt/bin/grunt",
     "postinstall": "npm run build"
   },
   "dependencies": {
