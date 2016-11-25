@@ -22,4 +22,4 @@ gulp.task("default", ["copy-public"], function () {
         })).pipe(sourcemaps.write('.')).pipe(gulp.dest("dist"));
 });
 
-gulp.task("heroku", ["default"]);
+gulp.task("heroku:production", ["default"]);
