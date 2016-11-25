@@ -10,8 +10,6 @@ export class ProjectService {
         let project = new ProjectSummary()
         let query = new Parse.Query("ProjectSummary")
         let p  = query.equalTo("name", "project1")
-        p.find().then(
-            v=>console.log(JSON.stringify(v))
-        )
+        return p.find();
     }
 }
