@@ -23,3 +23,4 @@ gulp.task("default", ["copy-public"], function () {
 });
 
 gulp.task("heroku:production", ["default"]);
+gulp.task("heroku:", ["default"]);
