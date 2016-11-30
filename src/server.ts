@@ -5,6 +5,8 @@ import * as logger from "morgan";
 import * as path from "path";
 import errorHandler = require("errorhandler");
 import methodOverride = require("method-override");
+import * as compression from "compression"
+import * as cors from "cors"
 
 import { IndexRoute } from "./routes/index";
 
@@ -17,6 +19,7 @@ export class Server {
 
   public app: express.Application;
 
+  private static serverInstance:Server
   /**
    * Bootstrap the application.
    *
@@ -26,11 +29,13 @@ export class Server {
    * @return {ng.auto.IInjectorService} Returns the newly created injector for this app.
    */
   public static bootstrap(): Server {
-    return new Server();
-
+    if(!this.serverInstance){
+      this.serverInstance = new Server();
+    }
+    return this.serverInstance;
   }
 
-  private ParseServer
+  public ParseServer
   /**
    * Constructor.
    *
@@ -121,8 +126,9 @@ export class Server {
     this.app.set("views", path.join(__dirname, "views"));
     this.app.set("view engine", "pug");
 
+    var morgan = require('morgan');
     //mount logger
-    this.app.use(logger("dev"));
+    this.app.use(morgan("dev"));
 
     //mount json form parser
     this.app.use(bodyParser.json());
@@ -130,6 +136,13 @@ export class Server {
     //mount query string parser
     this.app.use(bodyParser.urlencoded({
       extended: true
+    }));
+
+    this.app.use(compression());
+
+    // allow cors only for local dev
+    this.app.use(cors({
+      origin: 'http://localhost:4200'
     }));
 
     //mount cookie parker
@@ -140,8 +153,8 @@ export class Server {
 
     // catch 404 and forward to error handler
     this.app.use(function(err: any, req: express.Request, res: express.Response, next: express.NextFunction) {
-        err.status = 404;
-        next(err);
+      err.status = 404;
+      next(err);
     });
 
     //error handling
