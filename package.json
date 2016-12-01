@@ -1,6 +1,6 @@
 {
-  "name": "heros",
-  "description": "The tour of heros",
+  "name": "Parse",
+  "description": "Parse Server",
   "version": "1.0.0",
   "private": true,
   "author": "Brian Love",
