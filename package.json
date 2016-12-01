@@ -3,11 +3,12 @@
   "description": "Parse Server",
   "version": "1.0.0",
   "private": true,
-  "author": "Brian Love",
+  "author": "Xclipse",
   "scripts": {
-    "dev": "NODE_ENV=development nodemon ./dist/bin/www.js",
+    "dev": "NODE_ENV=development DATABASE_URI=mongodb://192.168.99.100:27017/dev DEBUG=app:* nodemon ./dist/bin/www.js",
     "start": "node ./dist/bin/www.js",
-    "build": "./node_modules/grunt/bin/grunt"
+    "build": "./node_modules/grunt/bin/grunt",
+    "build-watch": "./node_modules/grunt/bin/grunt dev"
   },
   "dependencies": {
     "body-parser": "^1.15.2",

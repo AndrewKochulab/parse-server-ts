@@ -27,7 +27,11 @@ export class WeixinMessageRoute extends BaseRoute {
 
     //add weixin message page route
     router.post("/wx/message", (req: Request, res: Response, next: NextFunction) => {
-      new WeixinMessageRoute().index(req, res, next);
+      new WeixinMessageRoute().incomeMessage(req, res, next);
+    });
+
+    router.get("/wx/message", (req: Request, res: Response, next: NextFunction) => {
+      new WeixinMessageRoute().authConnect(req, res, next);
     });
   }
 
@@ -37,7 +41,7 @@ export class WeixinMessageRoute extends BaseRoute {
    * @class WeixinMessageRoute
    * @constructor
    */
-  constructor(private builder = new xml2js.Builder({cdata:true, headless:true})) {
+  constructor(private builder = new xml2js.Builder({cdata:true, headless:true}), private log = WeixinMessageRoute.logger) {
     super();
     let opt : OptionsV2 = {cdata:true};
   }
@@ -46,12 +50,12 @@ export class WeixinMessageRoute extends BaseRoute {
    * The weixin page route.
    *
    * @class WeixinMessageRoute
-   * @method index
+   * @method incomeMessage
    * @param req {Request} The express Request object.
    * @param res {Response} The express Response object.
    * @next {NextFunction} Execute the next method.
    */
-  public index(req: Request, res: Response, next: NextFunction) {
+  public incomeMessage(req: Request, res: Response, next: NextFunction) {
     //set custom title
     this.title = "Weixin Message";
 
@@ -60,10 +64,22 @@ export class WeixinMessageRoute extends BaseRoute {
       "message": "Weixin message "
     };
 
-    WeixinMessageRoute.logger(req.body)
+    this.log(req.body)
     let retXml = this.builder.buildObject({message:"test message"})
     // retXml = retXml.substring(retXml.indexOf("\n"))
-    WeixinMessageRoute.logger(retXml)
+    this.log(retXml)
     res.status(200).send(retXml)
+  }
+
+  public authConnect(req: Request, res: Response, next: NextFunction) {
+    this.log(JSON.stringify(req.params))
+    this.log(JSON.stringify(req.query))
+    this.log(req.body)
+
+    let retXml = this.builder.buildObject({message:"test message"})
+    // retXml = retXml.substring(retXml.indexOf("\n"))
+    this.log(retXml)
+
+    res.status(200).send(req.query.echostr)
   }
 }

@@ -10,7 +10,7 @@ import * as debug from 'debug'
  */
 export class IndexRoute extends BaseRoute {
 
-  static logger = debug("app:router:index")
+  static logger = debug("app:router:incomeMessage")
   /**
    * Create the routes.
    *
@@ -20,7 +20,7 @@ export class IndexRoute extends BaseRoute {
    */
   public static create(router: Router) {
     //log
-    this.logger("[IndexRouter::create] Creating index route.");
+    this.logger("[IndexRouter::create] Creating incomeMessage route.");
 
     //add home page route
     router.get("/", (req: Request, res: Response, next: NextFunction) => {
@@ -42,7 +42,7 @@ export class IndexRoute extends BaseRoute {
    * The home page route.
    *
    * @class IndexRoute
-   * @method index
+   * @method incomeMessage
    * @param req {Request} The express Request object.
    * @param res {Response} The express Response object.
    * @next {NextFunction} Execute the next method.

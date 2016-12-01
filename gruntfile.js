@@ -29,7 +29,7 @@ module.exports = function(grunt) {
         options: {
           module: "commonjs",
           target: "es6",
-          sourceMap: false
+          sourceMap: true
         }
       }
     },
@@ -56,4 +56,8 @@ module.exports = function(grunt) {
   grunt.registerTask("heroku", [
       "copy",
       "ts"]);
+  grunt.registerTask("dev", [
+      "copy",
+      "ts",
+      "watch"]);
 };
