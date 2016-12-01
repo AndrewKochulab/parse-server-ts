@@ -16,12 +16,6 @@ module.exports = function(grunt) {
             cwd: "./views",
             src: ["**"],
             dest: "./dist/views"
-          },
-          {
-            expand: true,
-            cwd: "./",
-            src: ["index.js"],
-            dest: "./dist"
           }
         ]
       }

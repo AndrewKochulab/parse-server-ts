@@ -1,4 +1,5 @@
 import * as bodyParser from "body-parser";
+import * as xml2js from '@types/xml2js'
 import * as cookieParser from "cookie-parser";
 import * as express from "express";
 import * as logger from "morgan";
@@ -9,6 +10,8 @@ import * as compression from "compression"
 import * as cors from "cors"
 
 import { IndexRoute } from "./routes/index";
+import {WeixinMessageRoute} from "./routes/weixin-message";
+const xmlparser = require('express-xml-bodyparser')
 
 /**
  * The server.
@@ -95,7 +98,8 @@ export class Server {
       serverURL: process.env.SERVER_URL || 'http://localhost:1337/parse',  // Don't forget to change to https if needed
       liveQuery: {
         classNames: ["Posts", "Comments"] // List of classes to support for query subscriptions
-      }
+      },
+      allowClientClassCreation: process.env.CLIENT_CLASS_CREATION || true // <<< This line is added for disabling client class creation
     });
 
 // Client-keys like the javascript key or the .NET key are not necessary with parse-server
@@ -107,7 +111,7 @@ export class Server {
     this.app.use('/public', express.static(path.join(__dirname, '/public')));
 
 // Serve the Parse API on the /parse URL prefix
-    var mountPath = process.env.PARSE_MOUNT || '/parse';
+    let mountPath = process.env.PARSE_MOUNT || '/parse';
     this.app.use(mountPath, api);
 
 // Parse Server plays nicely with the rest of your web routes
@@ -126,9 +130,20 @@ export class Server {
     this.app.set("views", path.join(__dirname, "views"));
     this.app.set("view engine", "pug");
 
-    var morgan = require('morgan');
-    //mount logger
-    this.app.use(morgan("dev"));
+    // var morgan = require('morgan');
+    // mount logger
+    // this.app.use(morgan("dev"));
+    this.app.use(logger("dev"))
+
+    // set xml middleware
+    let xml2jsDefaults : xml2js.Options = {
+      explicitArray: false,
+      normalize: true,
+      normalizeTags: false,
+      trim: true
+    }
+
+    this.app.use(xmlparser(xml2jsDefaults))
 
     //mount json form parser
     this.app.use(bodyParser.json());
@@ -178,8 +193,10 @@ export class Server {
     let router: express.Router;
     router = express.Router();
 
-    //IndexRoute
-    IndexRoute.create(router);
+    //WeixinMessageRoute
+    WeixinMessageRoute.create(router)
+
+    IndexRoute.create(router)
 
     //use router middleware
     this.app.use(router);

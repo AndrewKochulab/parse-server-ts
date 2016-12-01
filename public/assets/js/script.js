@@ -7,7 +7,8 @@ var Steps = {}
 Steps.init = function() {
   this.buildParseUrl();
   this.bindBtn('#step-1-btn', function(e){
-    ParseRequest.postData();
+    //ParseRequest.postData();
+      ParseRequest.postCloudCodeData();
     e.preventDefault();
   })
 }
@@ -22,7 +23,7 @@ Steps.bindBtn = function(id, callback) {
 }
 
 Steps.closeStep = function(id) {
-  $(id).addClass('step--disabled');
+    $(id).removeClass('step--disabled');
 }
 
 Steps.openStep  = function(id) {
