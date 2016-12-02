@@ -14,7 +14,9 @@ const httpPort = normalizePort(process.env.PORT || 1337);
 const appServer = Server.bootstrap();
 const app = appServer.app;
 app.set("port", httpPort);
+app.disable("x-powered-by")
 const httpServer = http.createServer(app);
+
 
 //listen on provided ports
 httpServer.listen(httpPort);
