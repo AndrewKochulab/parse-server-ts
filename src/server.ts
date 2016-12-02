@@ -153,7 +153,8 @@ export class Server {
       extended: true
     }));
 
-    this.app.use(compression({threshold:0}));
+    //this.app.use(compression({threshold:0})); // compression all request
+    this.app.use(compression());
 
     // allow cors only for local dev
     this.app.use(cors({
