@@ -4,13 +4,13 @@ import * as cookieParser from "cookie-parser";
 import * as express from "express";
 import * as logger from "morgan";
 import * as path from "path";
-import errorHandler = require("errorhandler");
-import methodOverride = require("method-override");
+import * as errorHandler from "errorhandler";
+import * as methodOverride from "method-override";
 import * as compression from "compression"
 import * as cors from "cors"
 
 import { IndexRoute } from "./routes/index";
-import {WeixinMessageRoute} from "./routes/weixin-message";
+import {WeChatRoute} from "./routes/we-chat";
 const xmlparser = require('express-xml-bodyparser')
 
 /**
@@ -174,7 +174,10 @@ export class Server {
     });
 
     //error handling
-    this.app.use(errorHandler());
+    if (process.env.NODE_ENV === 'development') {
+      // only use in development
+      this.app.use(errorHandler());
+    }
   }
 
   public afterServerStart(httpServer){
@@ -194,8 +197,8 @@ export class Server {
     let router: express.Router;
     router = express.Router();
 
-    //WeixinMessageRoute
-    WeixinMessageRoute.create(router)
+    //WeChatRoute
+    WeChatRoute.create(router)
 
     IndexRoute.create(router)
 

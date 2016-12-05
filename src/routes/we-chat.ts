@@ -9,44 +9,46 @@ import * as crypto from "crypto"
  *
  * @class User
  */
-export class WeixinMessageRoute extends BaseRoute {
+export class WeChatRoute extends BaseRoute {
 
   static logger = debug("app:router:wx:message")
 
   private static _WX_CALLBACK_TOKEN = process.env.WX_CALLBACK_TOKEN || "Xclipse"
   public static get WX_CALLBACK_TOKEN() {
-    return WeixinMessageRoute._WX_CALLBACK_TOKEN
+    return WeChatRoute._WX_CALLBACK_TOKEN
   }
 
   /**
    * Create the routes.
    *
-   * @class WeixinMessageRoute
+   * @class WeChatRoute
    * @method create
    * @static
    */
   public static create(router: Router) {
 
     //log
-    this.logger("[WeixinMessageRoute::create] Creating Weixin message route.");
+    this.logger("[WeChatRoute::create] Creating Weixin message route.");
 
     //add weixin message page route
-    router.post("/wx/message", (req: Request, res: Response, next: NextFunction) => {
-      new WeixinMessageRoute().incomeMessage(req, res, next);
+    router.post("/wechat/message", (req: Request, res: Response, next: NextFunction) => {
+      new WeChatRoute().incomeMessage(req, res, next);
     });
 
-    router.get("/wx/message", (req: Request, res: Response, next: NextFunction) => {
-      new WeixinMessageRoute().authConnect(req, res, next);
+    router.get("/wechat/message", (req: Request, res: Response, next: NextFunction) => {
+      new WeChatRoute().authConnect(req, res, next);
     });
+    
+    router.post("/wechat",)
   }
 
   /**
    * Constructor
    *
-   * @class WeixinMessageRoute
+   * @class WeChatRoute
    * @constructor
    */
-  constructor(private builder = new xml2js.Builder({cdata:true, headless:true}), private log = WeixinMessageRoute.logger) {
+  constructor(private builder = new xml2js.Builder({cdata:true, headless:true}), private log = WeChatRoute.logger) {
     super();
     let opt : xml2js.OptionsV2 = {cdata:true};
   }
@@ -54,7 +56,7 @@ export class WeixinMessageRoute extends BaseRoute {
   /**
    * The weixin page route.
    *
-   * @class WeixinMessageRoute
+   * @class WeChatRoute
    * @method incomeMessage
    * @param req {Request} The express Request object.
    * @param res {Response} The express Response object.
@@ -95,7 +97,7 @@ export class WeixinMessageRoute extends BaseRoute {
     this.log(JSON.stringify(req.query))
     this.log(req.body)
 
-    let tmpArr = [WeixinMessageRoute.WX_CALLBACK_TOKEN,
+    let tmpArr = [WeChatRoute.WX_CALLBACK_TOKEN,
       req.query.timestamp, req.query.nonce]
     tmpArr = tmpArr.sort()
 

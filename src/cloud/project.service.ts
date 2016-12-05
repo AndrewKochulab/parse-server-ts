@@ -1,9 +1,10 @@
-/// <reference types="parse" />
-import * as debug from 'debug'
-import {ProjectSummary} from "./models/project-summary";
 
-export class ProjectService {
-    constructor(private logger = debug('app:service')){
+import {ProjectSummary} from "./models/project-summary";
+import {CommonService} from "./common-service";
+class ProjectService extends CommonService{
+
+    constructor(){
+        super("app:service:project")
     }
 
     queryProduct(){
@@ -23,3 +24,5 @@ export class ProjectService {
 
     }
 }
+
+export const projectService = new ProjectService()
