@@ -11,7 +11,9 @@ import * as cors from "cors"
 
 import { IndexRoute } from "./routes/index";
 import {WeChatRoute} from "./routes/we-chat";
+import {environment} from "./environments/environment";
 const xmlparser = require('express-xml-bodyparser')
+const WchatAPI  = require("co-wechat-api")
 
 /**
  * The server.
@@ -19,6 +21,7 @@ const xmlparser = require('express-xml-bodyparser')
  * @class Server
  */
 export class Server {
+
 
   public app: express.Application;
 
@@ -32,6 +35,7 @@ export class Server {
    * @return {ng.auto.IInjectorService} Returns the newly created injector for this app.
    */
   public static bootstrap(): Server {
+
     if(!this.serverInstance){
       this.serverInstance = new Server();
     }
@@ -89,9 +93,14 @@ export class Server {
       console.log('DATABASE_URI not specified, falling back to localhost.');
     }
 
+    // mount logger
+    this.app.use(logger("dev"))
 
+    // When using files on Parse, you will need to use the publicServerURL option in your Parse Server config. This is the URL that files will be accessed from, so it should be a URL that resolves to your Parse Server
+    // https://github.com/ParsePlatform/parse-server/wiki/Configuring-File-Adapters
     var api = new this.ParseServer({
       databaseURI: databaseUri || 'mongodb://localhost:27017/dev',
+      publicServerURL: process.env.SERVER_URL || 'http://localhost:1337/parse',
       cloud: process.env.CLOUD_CODE_MAIN || __dirname + '/cloud/main.js',
       appId: process.env.APP_ID || 'myAppId',
       masterKey: process.env.MASTER_KEY || '', //Add your master key here. Keep it secret!
@@ -102,6 +111,21 @@ export class Server {
       allowClientClassCreation: process.env.CLIENT_CLASS_CREATION || true // <<< This line is added for disabling client class creation
     });
 
+
+    let wechatApi = new WchatAPI(environment.wechat.appid, environment.wechat.appsecret);
+    var param = {
+      debug: false,
+      jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage'],
+      url: 'http://xclipse.herokuapp.com'
+    };
+    wechatApi.getJsConfig(param);
+    console.log("WECHANG === " + JSON.stringify(wechatApi.getJsConfig(param)))
+
+    this.app.get("/jsconfig", (req,res,next) => {
+      res.status(200).type("text/json").send(JSON.stringify(wechatApi.getJsConfig(param)))
+    })
+
+
 // Client-keys like the javascript key or the .NET key are not necessary with parse-server
 // If you wish you require them, you can set them as options in the initialization above:
 // javascriptKey, restAPIKey, dotNetKey, clientKey
@@ -109,6 +133,13 @@ export class Server {
 
 // Serve static assets from the /public folder
     this.app.use('/public', express.static(path.join(__dirname, '/public')));
+
+
+    // middleware test
+    // this.app.use((req, res, next) =>{
+    //   console.log(' ======== Time:', Date.now());
+    //   next();
+    // });
 
 // Serve the Parse API on the /parse URL prefix
     let mountPath = process.env.PARSE_MOUNT || '/parse';
@@ -130,10 +161,6 @@ export class Server {
     this.app.set("views", path.join(__dirname, "views"));
     this.app.set("view engine", "pug");
 
-    // var morgan = require('morgan');
-    // mount logger
-    // this.app.use(morgan("dev"));
-    this.app.use(logger("dev"))
 
     // set xml middleware
     let xml2jsDefaults : xml2js.Options = {
@@ -142,6 +169,7 @@ export class Server {
       normalizeTags: false,
       trim: true
     }
+
 
     this.app.use(xmlparser(xml2jsDefaults))
 

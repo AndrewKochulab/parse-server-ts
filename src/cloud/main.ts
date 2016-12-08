@@ -37,7 +37,6 @@ Parse.Cloud.define('wechat-login', (req, res) => {
 var restrictedAcl = new Parse.ACL();
 restrictedAcl.setPublicReadAccess(true);
 restrictedAcl.setPublicWriteAccess(false);
-
 Parse.Cloud.define("test", (req,res) => {
     let wechatToken:WeChatToken = new WeChatToken();
     wechatToken.set("openid", "readonly")
@@ -87,3 +86,4 @@ Parse.Cloud.define("test3", (req,res) => {
         }
     )
 })
+
