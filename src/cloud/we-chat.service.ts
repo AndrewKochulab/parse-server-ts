@@ -15,7 +15,10 @@ class WeChatService extends CommonService{
     oauthLogin(code:string): Observable<OAuthReply>{
         this.logger(code)
         let url = `https://api.weixin.qq.com/sns/oauth2/access_token?appid=${environment.wechat.appid}&secret=${environment.wechat.appsecret}&code=${code}&grant_type=authorization_code`
-        return Observable.fromPromise(Parse.Cloud.httpRequest({url:url})).map(res => {
+
+        return Observable.create((ob)=>{
+            Parse.Cloud.httpRequest({url:url}).then((d) => ob.next(d),(e)=> ob.error(e))
+        }).map(res => {
             return res.data
         });
     }
