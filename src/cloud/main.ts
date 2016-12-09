@@ -1,9 +1,9 @@
 import * as debug from "debug";
-import {projectService} from "./project.service";
-import {weChatService} from "./we-chat.service";
-import {OAuthReply} from "./models/wechat/oauth-reply";
-import {isError} from "./models/wechat/error-reply";
-import {WeChatToken} from "./models/wechat/wechat-token";
+import {projectService} from "../services/project.service";
+import * as wechat from "../wechat/wechat.module";
+import {OAuthReply} from "../models/wechat/oauth-reply";
+import {isError} from "../models/wechat/error-reply";
+import {WeChatToken} from "../models/wechat/wechat-token";
 const logger = debug("app:cloud")
 
 Parse.Cloud.define('hello', (req, res) => {
@@ -20,7 +20,7 @@ Parse.Cloud.define('hello', (req, res) => {
 
 Parse.Cloud.define('wechat-login', (req, res) => {
     let code = req.params.code
-    weChatService.oauthLogin(code).subscribe((weRes : OAuthReply) => {
+    wechat.oauth.oauthLogin(code).subscribe((weRes : OAuthReply) => {
         if(isError(weRes)){
             logger(`oauthLogin failed with error ${JSON.stringify(weRes)}` )
             res.error("wechat-loggin failed" + JSON.stringify(weRes))

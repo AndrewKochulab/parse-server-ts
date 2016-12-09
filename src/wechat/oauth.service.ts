@@ -1,15 +1,13 @@
 
-import {CommonService} from "./common-service";
 import {environment} from "../environments/environment";
 import {Observable} from "rxjs";
-import {OAuthReply} from "./models/wechat/oauth-reply";
+import {OAuthReply} from "../models/wechat/oauth-reply";
+import {WechatCommonService} from "./wechat-common.service";
 
-export type Scope = "snsapi_base" | "snsapi_userinfo";
-
-class WeChatService extends CommonService{
-
+export class OAuthService extends WechatCommonService{
+    public serviceType:"oauth"
     constructor(){
-        super("app:service:wechat")
+        super("oauth")
     }
 
     oauthLogin(code:string): Observable<OAuthReply>{
@@ -25,4 +23,4 @@ class WeChatService extends CommonService{
 
 }
 
-export const weChatService = new WeChatService()
+export const oauthService = new OAuthService()

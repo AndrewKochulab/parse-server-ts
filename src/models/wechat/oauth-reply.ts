@@ -1,4 +1,3 @@
-import {Scope} from "../../we-chat.service";
 import {ErrorReply} from "./error-reply";
 
 export type OAuthReply = OAuthSuccess | ErrorReply
@@ -11,3 +10,4 @@ export interface OAuthSuccess{
     "scope": Scope
 }
 
+export type Scope = "snsapi_base" | "snsapi_userinfo";

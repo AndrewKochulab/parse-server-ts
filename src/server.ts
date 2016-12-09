@@ -10,10 +10,10 @@ import * as compression from "compression"
 import * as cors from "cors"
 
 import { IndexRoute } from "./routes/index";
-import {WeChatRoute} from "./routes/we-chat";
 import {environment} from "./environments/environment";
+import {WeChatApi} from "./api/we-chat";
 const xmlparser = require('express-xml-bodyparser')
-const WchatAPI  = require("co-wechat-api")
+
 
 /**
  * The server.
@@ -65,6 +65,7 @@ export class Server {
     this.api();
   }
 
+
   /**
    * Create REST API routes
    *
@@ -72,11 +73,12 @@ export class Server {
    * @method api
    */
   public api() {
-    //empty for now
 
+    let router: express.Router;
+    router = express.Router();
+    WeChatApi.create(router)
 
-
-
+    this.app.use(router)
   }
 
   /**
@@ -110,20 +112,6 @@ export class Server {
       },
       allowClientClassCreation: process.env.CLIENT_CLASS_CREATION || true // <<< This line is added for disabling client class creation
     });
-
-
-    let wechatApi = new WchatAPI(environment.wechat.appid, environment.wechat.appsecret);
-    var param = {
-      debug: false,
-      jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage'],
-      url: 'http://xclipse.herokuapp.com'
-    };
-    wechatApi.getJsConfig(param);
-    console.log("WECHANG === " + JSON.stringify(wechatApi.getJsConfig(param)))
-
-    this.app.get("/jsconfig", (req,res,next) => {
-      res.status(200).type("text/json").send(JSON.stringify(wechatApi.getJsConfig(param)))
-    })
 
 
 // Client-keys like the javascript key or the .NET key are not necessary with parse-server
@@ -224,9 +212,6 @@ export class Server {
   private routes() {
     let router: express.Router;
     router = express.Router();
-
-    //WeChatRoute
-    WeChatRoute.create(router)
 
     IndexRoute.create(router)
 
