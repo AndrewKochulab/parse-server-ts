@@ -1,7 +1,8 @@
 import { NextFunction, Request, Response, Router } from "express";
 import { BaseRoute } from "./route";
 import * as debug from 'debug'
-
+import * as fs from "fs-extra"
+import {ProjectSummary} from "../models/project-summary";
 
 /**
  * / route
@@ -25,6 +26,17 @@ export class IndexRoute extends BaseRoute {
     //add home page route
     router.get("/", (req: Request, res: Response, next: NextFunction) => {
       new IndexRoute().index(req, res, next);
+    });
+
+    //add home page route
+    router.get("/read", (req: Request, res: Response, next: NextFunction) => {
+
+      fs.readFile("/tmp/file.txt", (err, data) => {
+        this.logger("ERR = " + JSON.stringify(err))
+        this.logger("data = " + data.toString())
+
+        res.status(200).send().end()
+      })
     });
   }
 

@@ -6,8 +6,8 @@ export abstract class CommonService {
   protected parentNamespace = "app:service"
   protected logger: debug.IDebugger
 
-  protected constructor(public serviceType) {
+  protected constructor(public serviceType:string) {
     this.logger = debug(`${this.parentNamespace}:${this.serviceType}`);
-    this.logger(` ====== loaded service '${serviceType}' =====` )
+    this.logger(` ====== loaded service '${this.serviceType}' =====` )
   }
 }

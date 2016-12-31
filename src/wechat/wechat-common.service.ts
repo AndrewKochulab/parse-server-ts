@@ -1,6 +1,6 @@
 import {CommonService} from "../services/common.service";
-export class WechatCommonService extends CommonService{
+export abstract class WechatCommonService extends CommonService{
   constructor(serviceName){
-    super("wechat:"+serviceName)
+    super(serviceName)
   }
 }

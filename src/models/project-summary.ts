@@ -1,3 +1,6 @@
+/// <reference types="parse" />
+
+export type ProjectSummaryFields = "name" | "description";
 
 export class ProjectSummary extends Parse.Object{
   constructor(){
@@ -17,3 +20,6 @@ export class ProjectSummary extends Parse.Object{
   }
   image: Parse.File
 }
+
+console.log("+++++++++++++++++++++++ registerSubclass ProjectSummary ++++++++++++++++++++")
+Parse.Object.registerSubclass("ProjectSummary",ProjectSummary)

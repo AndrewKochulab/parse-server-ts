@@ -1,9 +1,9 @@
 import * as debug from 'debug'
 import * as xml2js from "xml2js"
 import {environment} from "../environments/environment";
-import {oauthService} from "./oauth.service";
-import {jssdkService} from "./jssdk.service";
-import {incomeService} from "./income.service";
+import {oauthService, OAuthService} from "./oauth.service";
+import {jssdkService, JssdkService} from "./jssdk.service";
+import {incomeService, IncomeService} from "./income.service";
 
 export class WeChatModule {
   public basicNamespace = "app:service:wechat"
@@ -37,3 +37,4 @@ export const jssdk = jssdkService
 export const income = incomeService
 export const oauth = oauthService;
 
+export type WechatServices = JssdkService | IncomeService | OAuthService

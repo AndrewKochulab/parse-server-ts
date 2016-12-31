@@ -3,7 +3,6 @@ import {Observable, Observer} from "rxjs";
 import {wechatApi} from "./wechat.module";
 import {WechatCommonService} from "./wechat-common.service";
 
-const serviceType = "jssdk"
 export class JssdkService extends WechatCommonService{
   public serviceType : "jssdk"
   constructor(){

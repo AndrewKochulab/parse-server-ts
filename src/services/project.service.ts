@@ -9,8 +9,7 @@ export class ProjectService extends CommonService {
   }
 
   queryProduct() {
-    let project = new ProjectSummary()
-    let query = new Parse.Query("ProjectSummary")
+    let query = new Parse.Query(ProjectSummary)
     let p = query.equalTo("name", "project1")
     return p.find();
   }

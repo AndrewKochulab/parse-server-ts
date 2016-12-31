@@ -1,3 +1,4 @@
+/// <reference types="parse" />
 
 export class WeChatToken extends Parse.Object{
     constructor() {
